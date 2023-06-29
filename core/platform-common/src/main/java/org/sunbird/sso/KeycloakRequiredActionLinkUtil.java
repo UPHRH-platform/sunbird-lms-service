@@ -78,22 +78,20 @@ public class KeycloakRequiredActionLinkUtil {
         JsonKey.AUTHORIZATION,
         JsonKey.BEARER + KeycloakUtil.getAdminAccessTokenWithDomain(context));
 
-    logger.info(
-        context,
-        "KeycloakRequiredActionLinkUtil:generateLink: complete URL "
-            + ProjectUtil.getConfigValue(JsonKey.SUNBIRD_SSO_URL)
-            + "realms/"
-            + ProjectUtil.getConfigValue(JsonKey.SUNBIRD_SSO_RELAM)
-            + SUNBIRD_KEYCLOAK_REQD_ACTION_LINK);
+
     logger.info(
         context,
         "KeycloakRequiredActionLinkUtil:generateLink: request body "
             + mapper.writeValueAsString(request));
     String url =
         ProjectUtil.getConfigValue(JsonKey.SUNBIRD_SSO_URL)
-            + "realms/"
+            + "/realms/"
             + ProjectUtil.getConfigValue(JsonKey.SUNBIRD_SSO_RELAM)
             + SUNBIRD_KEYCLOAK_REQD_ACTION_LINK;
+    logger.info(
+            context,
+            "KeycloakRequiredActionLinkUtil:generateLink: complete URL "
+                    + url);
     String response =
         HttpClientUtil.post(url, mapper.writeValueAsString(request), headers, context);
 
