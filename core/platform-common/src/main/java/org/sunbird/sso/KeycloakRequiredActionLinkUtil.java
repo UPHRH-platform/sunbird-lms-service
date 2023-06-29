@@ -85,7 +85,7 @@ public class KeycloakRequiredActionLinkUtil {
             + mapper.writeValueAsString(request));
     String url =
         ProjectUtil.getConfigValue(JsonKey.SUNBIRD_SSO_URL)
-            + "/realms/"
+            + "realms/"
             + ProjectUtil.getConfigValue(JsonKey.SUNBIRD_SSO_RELAM)
             + SUNBIRD_KEYCLOAK_REQD_ACTION_LINK;
     logger.info(
