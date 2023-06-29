@@ -28,11 +28,13 @@ public class KeyManager {
     try (Stream<Path> walk = Files.walk(Paths.get(basePath))) {
       List<String> result =
           walk.filter(Files::isRegularFile).map(x -> x.toString()).collect(Collectors.toList());
+      logger.info("getting result from file:  "+result);
       result.forEach(
           file -> {
             try {
               StringBuilder contentBuilder = new StringBuilder();
               Path path = Paths.get(file);
+              logger.info("getting path from file:  "+path);
               Files.lines(path, StandardCharsets.UTF_8)
                   .forEach(
                       x -> {
@@ -42,6 +44,7 @@ public class KeyManager {
                   new KeyData(
                       path.getFileName().toString(), loadPublicKey(contentBuilder.toString()));
               keyMap.put(path.getFileName().toString(), keyData);
+              System.out.println("keyMap : "+keyMap);
             } catch (Exception e) {
               logger.error("KeyManager:init: exception in reading public keys ", e);
             }
