@@ -34,7 +34,7 @@ public class KeyManager {
             try {
               StringBuilder contentBuilder = new StringBuilder();
               Path path = Paths.get(file);
-              logger.info("getting path from file:  "+path);
+              System.out.println("getting path from file:  "+path);
               Files.lines(path, StandardCharsets.UTF_8)
                   .forEach(
                       x -> {
