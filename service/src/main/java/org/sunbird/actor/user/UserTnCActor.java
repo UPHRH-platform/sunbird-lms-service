@@ -38,8 +38,10 @@ public class UserTnCActor extends BaseActor {
     Util.initializeContext(request, JsonKey.USER);
     RequestContext requestContext = request.getRequestContext();
     Map<String, Object> context = request.getContext();
+    logger.info(requestContext,"requestContext: "+requestContext);
     String acceptedTnC = (String) request.getRequest().get(JsonKey.VERSION);
     String userId = (String) request.getContext().get(JsonKey.REQUESTED_BY);
+    logger.info(requestContext,"getting userId from Requested_By : "+userId);
     // if managedUserId's terms and conditions are accepted, get userId from request
     String managedUserId = (String) request.getRequest().get(JsonKey.USER_ID);
 
@@ -52,6 +54,7 @@ public class UserTnCActor extends BaseActor {
     String tncType = tncService.getTncType(request);
     tncService.validateLatestTncVersion(request, tncType);
     Map<String, Object> user = tncService.getUserById(userId, requestContext);
+    logger.info(requestContext,"fetch user data based on Id : "+user);
     tncService.isAccountManagedUser(isManagedUser, user);
     tncService.validateRoleForTnc(requestContext, tncType, user);
     if (JsonKey.TNC_CONFIG.equals(tncType)) {
@@ -131,8 +134,10 @@ public class UserTnCActor extends BaseActor {
       String acceptedTnC,
       RequestContext requestContext,
       Map<String, Object> context) {
+    logger.info(requestContext,"enter in to UdateUserTncConfig  ");
     String lastAcceptedVersion = (String) user.get(JsonKey.TNC_ACCEPTED_VERSION);
     Object tncAcceptedOn = user.get(JsonKey.TNC_ACCEPTED_ON);
+    logger.info(null,"tncAcceptedOn:  "+tncAcceptedOn);
     Response response = new Response();
     Map<String, Object> userMap = new HashMap();
     if (StringUtils.isEmpty(lastAcceptedVersion)
@@ -151,6 +156,7 @@ public class UserTnCActor extends BaseActor {
       userMap.put(
           JsonKey.TNC_ACCEPTED_ON, new Timestamp(Calendar.getInstance().getTime().getTime()));
       response = tncService.updateUser(userMap, requestContext);
+      logger.info(null,"updateUser response:  "+response);
       if (((String) response.get(JsonKey.RESPONSE)).equalsIgnoreCase(JsonKey.SUCCESS)) {
         tncService.syncUserDetails(userMap, requestContext);
       }
