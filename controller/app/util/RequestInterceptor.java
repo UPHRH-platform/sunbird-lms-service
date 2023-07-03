@@ -88,6 +88,7 @@ public class RequestInterceptor {
   private static String getUserRequestedFor(Http.Request request) {
     String requestedForUserID = null;
     JsonNode jsonBody = request.body().asJson();
+    logger.info("jsonBody " + jsonBody);
     try {
       if (!(jsonBody == null)
           && !(jsonBody.get(JsonKey.REQUEST)
@@ -106,6 +107,7 @@ public class RequestInterceptor {
         }
         try {
           requestedForUserID = UUID.fromString(uuidSegment).toString();
+          logger.info("requestedForUserID " + requestedForUserID);
         } catch (IllegalArgumentException iae) {
           logger.error("Perhaps this is another API, like search that doesn't carry user id.", iae);
         }
@@ -127,7 +129,7 @@ public class RequestInterceptor {
     Map userAuthentication = new HashMap<String, String>();
     userAuthentication.put(JsonKey.USER_ID, JsonKey.UNAUTHORIZED);
     userAuthentication.put(JsonKey.MANAGED_FOR, null);
-
+    logger.info("userAuthentication for user Unauthorized " + userAuthentication);
     String clientId = JsonKey.UNAUTHORIZED;
     String managedForId = null;
     Optional<String> accessToken = request.header(HeaderParam.X_Authenticated_User_Token.getName());
@@ -135,6 +137,7 @@ public class RequestInterceptor {
       // The API must be invoked with either access token or client token.
       if (accessToken.isPresent()) {
         clientId = AccessTokenValidator.verifyUserToken(accessToken.get(), requestContext);
+        logger.info("accessToken is present  " + clientId);
         if (!JsonKey.USER_UNAUTH_STATES.contains(clientId)) {
           // Now we have some valid token, next verify if the token is matching the request.
           String requestedForUserID = getUserRequestedFor(request);
@@ -159,6 +162,8 @@ public class RequestInterceptor {
         }
         userAuthentication.put(JsonKey.USER_ID, clientId);
         userAuthentication.put(JsonKey.MANAGED_FOR, managedForId);
+        logger.info("passing clientId as a userId " + userAuthentication);
+
       } else {
         logger.info("Token not present in request: " + request.getHeaders().toMap());
       }
@@ -182,6 +187,7 @@ public class RequestInterceptor {
         userAuthentication.put(JsonKey.USER_ID, JsonKey.ANONYMOUS);
       }
     }
+    logger.info("userAuthentication " + userAuthentication);
     return userAuthentication;
   }
 
