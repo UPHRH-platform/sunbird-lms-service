@@ -42,9 +42,6 @@ public class UserTnCActor extends BaseActor {
     String acceptedTnC = (String) request.getRequest().get(JsonKey.VERSION);
     String userId = (String) request.getRequest().get(JsonKey.USER_ID);
     logger.info(requestContext,"getting userId from Requested_By : "+userId);
-    // if managedUserId's terms and conditions are accepted, get userId from request
-   // String managedUserId = (String) request.getRequest().get(JsonKey.USER_ID);
-
     boolean isManagedUser = false;
  //removed managedUserId from code it's not applicable upsmf
     String tncType = tncService.getTncType(request);
