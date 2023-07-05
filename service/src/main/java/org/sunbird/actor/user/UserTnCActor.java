@@ -40,17 +40,10 @@ public class UserTnCActor extends BaseActor {
     Map<String, Object> context = request.getContext();
     logger.info(requestContext,"requestContext: "+requestContext);
     String acceptedTnC = (String) request.getRequest().get(JsonKey.VERSION);
-    String userId = (String) request.getContext().get(JsonKey.REQUESTED_BY);
+    String userId = (String) request.getRequest().get(JsonKey.USER_ID);
     logger.info(requestContext,"getting userId from Requested_By : "+userId);
-    // if managedUserId's terms and conditions are accepted, get userId from request
-    String managedUserId = (String) request.getRequest().get(JsonKey.USER_ID);
-
     boolean isManagedUser = false;
-    if (StringUtils.isNotBlank(managedUserId) && !managedUserId.equals(userId)) {
-      userId = managedUserId;
-      isManagedUser = true;
-    }
-
+ //removed managedUserId from code it's not applicable upsmf
     String tncType = tncService.getTncType(request);
     tncService.validateLatestTncVersion(request, tncType);
     Map<String, Object> user = tncService.getUserById(userId, requestContext);
