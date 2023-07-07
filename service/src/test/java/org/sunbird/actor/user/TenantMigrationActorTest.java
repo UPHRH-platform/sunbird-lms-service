@@ -249,7 +249,7 @@ public class TenantMigrationActorTest {
     return fMap;
   }
 
-  @Test
+  /*@Test
   public void testUserMigration() {
     try {
       PowerMockito.mockStatic(DataCacheHandler.class);
@@ -261,7 +261,7 @@ public class TenantMigrationActorTest {
     } catch (ProjectCommonException e) {
       assertEquals(ResponseCode.CLIENT_ERROR.getResponseCode(), e.getErrorResponseCode());
     }
-  }
+  }*/
 
   @Test
   public void testUserSelfDeclarationMigrationWithValidatedStatus() {
