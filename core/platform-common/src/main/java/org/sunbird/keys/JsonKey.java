@@ -607,7 +607,7 @@ public final class JsonKey {
   public static final String OTP_CONTACT_UPDATE_TEMPLATE_EMAIL = "otpContactUpdateTemplateEmail";
   public static final String OTP_CONTACT_UPDATE_TEMPLATE_SMS = "otpContactUpdateTemplateSms";
   public static final String CONTACT_DETAILS_UPDATE_VERIFICATION_SUBJECT =
-      "OTP to edit Diksha Profile";
+      "OTP to edit UPSMF Profile";
   public static final String X_Source = "x-source";
   public static final String IDS = "ids";
   public static final String NOTIFICATIONS = "notifications";
